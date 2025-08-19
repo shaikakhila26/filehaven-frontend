@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const formatMB = (bytes) => {
   if (typeof bytes !== "number" || isNaN(bytes)) return "0";
   return (bytes / 1024 / 1024).toFixed(2);
@@ -11,7 +13,7 @@ const Storage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/storage", {
+    fetch(`${VITE_API_URL}/storage`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => {

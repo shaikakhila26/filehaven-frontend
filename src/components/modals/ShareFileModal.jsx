@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const SHARE_API = "http://localhost:8080/api"; // adjust as needed
+const SHARE_API = import.meta.env.VITE_API_URL ||"http://localhost:8080/api"; // adjust as needed
 
 const permissionOptions = [
   { value: "view", label: "Viewer" },

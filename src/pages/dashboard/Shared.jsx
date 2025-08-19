@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const Shared = () => {
   const [sharedFiles, setSharedFiles] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/shared-with-me", {
+    fetch(`${VITE_API_URL}/shared-with-me`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())
@@ -14,7 +16,7 @@ const Shared = () => {
 
   const openSharedFile = async (fileId) => {
   try {
-    const res = await fetch(`http://localhost:8080/api/files/${fileId}/download`, {
+    const res = await fetch(`${VITE_API_URL}/files/${fileId}/download`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     if (!res.ok) throw new Error("Failed to fetch download link");

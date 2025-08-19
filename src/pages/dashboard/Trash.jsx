@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaRegFolder, FaRegFile } from "react-icons/fa"; // Icons for folder/file
 
-const VITE_API_URL = "http://localhost:8080/api";
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 const Trash = () => {
   const [files, setFiles] = useState([]);

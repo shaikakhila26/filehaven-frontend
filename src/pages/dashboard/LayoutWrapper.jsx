@@ -7,7 +7,7 @@ import FileUploadModal from "../../components/modals/FileUploadModal";
 import FolderUploadModal from "../../components/modals/FolderUploadModal";
 import { useFolder } from "../../context/FolderContext";
 
-
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 const LayoutWrapper = () => {
   const [storage, setStorage] = useState({ used: 0, total: 1024 * 1024 * 500 }); // default 500MB
@@ -18,7 +18,7 @@ const {currentFolderId, setCurrentFolderId }= useFolder();
 
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/storage", {
+    fetch(`${VITE_API_URL}/storage`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())

@@ -10,11 +10,13 @@ import Starred from "./Starred";
 import Trash from "./Trash";
 import Storage from "./Storage";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const Dashboard = () => {
   const [storage, setStorage] = useState({ used: 0, total: 1024 * 1024 * 500 });
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/storage", {
+    fetch(`${VITE_API_URL}/storage`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())

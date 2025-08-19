@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const Recent = () => {
   const [recent, setRecent] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/recent", {
+    fetch(`${VITE_API_URL}/recent`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())

@@ -5,7 +5,7 @@ import FileListWithContextMenu from "../../context/FileListWithContextMenu";
 import FileVersionList from "../../components/FileVersionList"; // adjust path accordingly
 
 
-const VITE_API_URL = "http://localhost:8080/api";
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 const MyDrive = ({onFolderChange}) => {
   const [files, setFiles] = useState([]);

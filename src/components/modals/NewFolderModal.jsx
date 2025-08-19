@@ -1,6 +1,8 @@
 // NewFolderModal.jsx
 import { useState } from "react";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 const NewFolderModal = ({ onClose,parentId }) => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -10,7 +12,7 @@ const NewFolderModal = ({ onClose,parentId }) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:8080/api/folders", {
+      const res = await fetch(`{VITE_API_URL}/folders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

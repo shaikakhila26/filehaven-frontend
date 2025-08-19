@@ -2,6 +2,9 @@
 import { useRef, useState,useEffect } from "react";
 import { useFolder } from "../../context/FolderContext";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
+
 const FileUploadModal = ({ onClose , folderId }) => {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState("");
@@ -24,7 +27,7 @@ const [textPreview, setTextPreview] = useState("");
 
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/api/upload");
+    xhr.open("POST", `${VITE_API_URL}/upload`);
     xhr.setRequestHeader("Authorization", `Bearer ${localStorage.getItem("token")}`);
 
     xhr.upload.onprogress = (e) => {

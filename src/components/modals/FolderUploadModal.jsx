@@ -1,6 +1,9 @@
 import { useState, useRef } from "react";
 import { useFolder } from "../../context/FolderContext";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
+
 const FolderUploadModal = ({ onClose, onSuccess ,folderId}) => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -21,7 +24,7 @@ const FolderUploadModal = ({ onClose, onSuccess ,folderId}) => {
 }
 
 
-    const response = await fetch("http://localhost:8080/api/upload", {
+    const response = await fetch(`${VITE_API_URL}/upload`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
