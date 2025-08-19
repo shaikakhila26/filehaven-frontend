@@ -13,7 +13,7 @@ const SearchResults = lazy(() => import("./search/SearchResults"));
 const AdvancedSearchModal = lazy(() => import("./search/AdvancedSearchModal"));
 const NotificationsPanel = lazy(() => import("./notifications/NotificationsPanel"));
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 // Debounce util
 const debounce = (func, delay) => {
@@ -133,7 +133,7 @@ function TopbarInner() {
     setToken(t);
 
     const fetchProfile = () =>
-      fetch(`${API_BASE}/user/profile`, {
+      fetch(`${VITE_API_URL}/user/profile`, {
         headers: { Authorization: `Bearer ${t}`, "Content-Type": "application/json" },
       });
 
@@ -177,7 +177,7 @@ function TopbarInner() {
     if (!token) return;
     (async () => {
       try {
-        const r = await fetch(`${API_BASE}/notifications`, {
+        const r = await fetch(`${VITE_API_URL}/notifications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!r.ok) throw new Error(`status ${r.status}`);
@@ -250,8 +250,8 @@ function TopbarInner() {
       const params = mode === "advanced" ? buildAdvancedParams(pageNum) : buildBasicParams(q, pageNum);
 
       const [filesResponse, foldersResponse] = await Promise.all([
-        fetch(`${API_BASE}/search/files?${params}`, { headers, signal: filesAbortRef.current.signal }),
-        fetch(`${API_BASE}/search/folders?${params}`, { headers, signal: foldersAbortRef.current.signal }),
+        fetch(`${VITE_API_URL}/search/files?${params}`, { headers, signal: filesAbortRef.current.signal }),
+        fetch(`${VITE_API_URL}/search/folders?${params}`, { headers, signal: foldersAbortRef.current.signal }),
       ]);
 
       const files = filesResponse.ok && filesResponse.headers.get("content-type")?.includes("application/json")
@@ -273,7 +273,7 @@ function TopbarInner() {
       setBackendConnected(true);
       return out;
     },
-    [API_BASE, advanced, backendConnected, lru, searchFilters, token]
+    [VITE_API_URL, advanced, backendConnected, lru, searchFilters, token]
   );
 
   // Debounced basic search
@@ -365,7 +365,7 @@ function TopbarInner() {
   const handleLogout = async () => {
     try {
       if (token) {
-        await fetch(`${API_BASE}/logout`, {
+        await fetch(`${VITE_API_URL}/logout`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         });
@@ -484,7 +484,7 @@ function TopbarInner() {
               </div>
               <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading…</div>}>
                 <NotificationsPanel
-                  apiBase={API_BASE}
+                  apiBase={VITE_API_URL}
                   token={token}
                   onConnectedChange={(ok) => { if (!ok) setBackendConnected(false); }}
                   onUnreadChange={(count) => setUnreadCount(count)}

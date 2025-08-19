@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Eye, EyeOff, User, Mail, Lock, Cloud, Shield, Zap, RefreshCw, Wifi, WifiOff } from "lucide-react"
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
 
 const Register = () => {
   const [name, setName] = useState("")
@@ -77,7 +77,7 @@ const Register = () => {
     const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
 
     try {
-      const res = await fetch(`${API_BASE}/auth/register`, {
+      const res = await fetch(`${VITE_API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

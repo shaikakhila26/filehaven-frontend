@@ -5,7 +5,7 @@ import FileListWithContextMenu from "../../context/FileListWithContextMenu";
 import FileVersionList from "../../components/FileVersionList"; // adjust path accordingly
 
 
-const API_BASE = "http://localhost:8080/api";
+const VITE_API_URL = "http://localhost:8080/api";
 
 const MyDrive = ({onFolderChange}) => {
   const [files, setFiles] = useState([]);
@@ -30,8 +30,8 @@ const MyDrive = ({onFolderChange}) => {
     try {
       const url =
         !folderId || folderId === "root"
-          ? `${API_BASE}/folder-contents`
-          : `${API_BASE}/folder-contents?folderId=${folderId}`;
+          ? `${VITE_API_URL}/folder-contents`
+          : `${VITE_API_URL}/folder-contents?folderId=${folderId}`;
 
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -82,7 +82,7 @@ const MyDrive = ({onFolderChange}) => {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/files/${file.id}/download`, {
+      const res = await fetch(`${VITE_API_URL}/files/${file.id}/download`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -109,7 +109,7 @@ const MyDrive = ({onFolderChange}) => {
   // Handle download (works for both modal & table)
 const handleDownload = async (file) => {
   try {
-    const res = await fetch(`${API_BASE}/files/${file.id}/download`, {
+    const res = await fetch(`${VITE_API_URL}/files/${file.id}/download`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
 
@@ -141,8 +141,8 @@ const handleDownload = async (file) => {
 const handleDelete = async (item) => {
   try {
     const endpoint = item.type === "folder"
-      ? `${API_BASE}/folders/${item.id}`
-      : `${API_BASE}/files/${item.id}`;
+      ? `${VITE_API_URL}/folders/${item.id}`
+      : `${VITE_API_URL}/files/${item.id}`;
 
     const res = await fetch(endpoint, {
       method: "DELETE",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:8080/api";
+const VITE_API_URL = "http://localhost:8080/api";
 
 function FileVersionList({ fileId }) {
   const [versions, setVersions] = useState([]);
@@ -11,7 +11,7 @@ function FileVersionList({ fileId }) {
     const fetchVersions = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_BASE}/files/${fileId}/versions`, {
+        const res = await fetch(`${VITE_API_URL}/files/${fileId}/versions`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         const data = await res.json();
@@ -28,7 +28,7 @@ function FileVersionList({ fileId }) {
   const handleRestore = async (versionId) => {
     if (!window.confirm("Restore this version?")) return;
     try {
-      const res = await fetch(`${API_BASE}/files/${fileId}/versions/${versionId}/restore`, {
+      const res = await fetch(`${VITE_API_URL}/files/${fileId}/versions/${versionId}/restore`, {
         method: "POST",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });

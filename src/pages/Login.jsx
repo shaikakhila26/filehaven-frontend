@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Wifi, WifiOff } from "lucide-react"
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -66,12 +66,12 @@ const Login = () => {
     setError("")
 
     try {
-      console.log("[v0] Attempting login to:", `${API_BASE}/auth/login`)
+      console.log("[v0] Attempting login to:", `${VITE_API_URL}/auth/login`)
 
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const res = await fetch(`${VITE_API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

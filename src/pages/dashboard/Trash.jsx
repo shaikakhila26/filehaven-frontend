@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaRegFolder, FaRegFile } from "react-icons/fa"; // Icons for folder/file
 
-const API_BASE = "http://localhost:8080/api";
+const VITE_API_URL = "http://localhost:8080/api";
 
 const Trash = () => {
   const [files, setFiles] = useState([]);
@@ -14,7 +14,7 @@ const Trash = () => {
     setLoading(true);
     try {
       const parentIdParam = parentId ? `?parentId=${parentId}` : '';
-      const res = await fetch(`${API_BASE}/trash${parentIdParam}`, {
+      const res = await fetch(`${VITE_API_URL}/trash${parentIdParam}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       const data = await res.json();
@@ -45,8 +45,8 @@ const Trash = () => {
     setLoading(true);
     try {
       const endpoint = item.type === 'file'
-        ? `${API_BASE}/trash/restore/file/${item.id}`
-        : `${API_BASE}/trash/restore/folder/${item.id}`;
+        ? `${VITE_API_URL}/trash/restore/file/${item.id}`
+        : `${VITE_API_URL}/trash/restore/folder/${item.id}`;
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -70,8 +70,8 @@ const Trash = () => {
     setLoading(true);
     try {
       const endpoint = item.type === 'file'
-        ? `${API_BASE}/trash/file/${item.id}/permanent`
-        : `${API_BASE}/trash/folder/${item.id}/permanent`;
+        ? `${VITE_API_URL}/trash/file/${item.id}/permanent`
+        : `${VITE_API_URL}/trash/folder/${item.id}/permanent`;
 
       const res = await fetch(endpoint, {
         method: 'DELETE',
@@ -299,7 +299,7 @@ export default Trash;
 /*
 import { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:8080/api";
+const VITE_API_URL = "http://localhost:8080/api";
 
 const Trash = () => {
   const [trash, setTrash] = useState([]);
@@ -311,7 +311,7 @@ const Trash = () => {
     try {
         setLoading(true);
          const parentIdParam = parentId ? `?parentId=${parentId}` : '';
-      const res = await fetch(`${API_BASE}/trash${parentIdParam}`, {
+      const res = await fetch(`${VITE_API_URL}/trash${parentIdParam}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       const data = await res.json();
@@ -347,8 +347,8 @@ const Trash = () => {
     setLoading(true);
     try {
       const endpoint = item.type === 'file'
-        ? `${API_BASE}/trash/restore/file/${item.id}`
-        : `${API_BASE}/trash/restore/folder/${item.id}`;
+        ? `${VITE_API_URL}/trash/restore/file/${item.id}`
+        : `${VITE_API_URL}/trash/restore/folder/${item.id}`;
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -372,8 +372,8 @@ const Trash = () => {
     setLoading(true);
     try {
       const endpoint = item.type === 'file'
-        ? `${API_BASE}/trash/file/${item.id}/permanent`
-        : `${API_BASE}/trash/folder/${item.id}/permanent`;
+        ? `${VITE_API_URL}/trash/file/${item.id}/permanent`
+        : `${VITE_API_URL}/trash/folder/${item.id}/permanent`;
 
       const res = await fetch(endpoint, {
         method: 'DELETE',
