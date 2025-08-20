@@ -375,35 +375,28 @@ function TopbarInner() {
     window.location.href = "/login";
   };
 
-  const openItem = async (item) => {
-  try {
-    if (item.type === "folder") {
-      // Navigate or fetch contents
-      const res = await fetch(
-        `${VITE_API_URL}/folder-contents?folderId=${item.id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const data = await res.json();
-      console.log("Folder contents:", data);
-      // You can navigate to a folder view route here if you have React Router:
-      // navigate(`/folder/${item.id}`);
-    } else if (item.type === "file") {
-      // Get signed URL
-      const res = await fetch(`${VITE_API_URL}/files/${item.id}/download`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const { url } = await res.json();
+ const openItem = async (item) => {
+    if (!item) return;
 
-      // Open or trigger download
-      window.open(url, "_blank");
+    if (item._kind === "folder") {
+      // 👉 Redirect to MyDrive with folder id
+      navigate(`/mydrive?folder=${item.id}`);
+    } else if (item._kind === "file") {
+      try {
+        const res = await fetch(`${API_BASE}/files/${item.id}/download`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.open(data.url, "_blank");
+        }
+      } catch (err) {
+        console.error("Error opening file:", err);
+        // 👉 fallback: redirect to MyDrive view
+        navigate(`/mydrive?file=${item.id}`);
+      }
     }
-  } catch (err) {
-    console.error("Error opening item:", err);
-    push("Failed to open item", "error");
-  }
-};
+  };
 
 
   return (
