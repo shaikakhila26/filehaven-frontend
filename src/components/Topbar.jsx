@@ -375,10 +375,36 @@ function TopbarInner() {
     window.location.href = "/login";
   };
 
-  const openItem = (item) => {
-    // Navigate if you want, or emit event
-    console.log("open", item);
-  };
+  const openItem = async (item) => {
+  try {
+    if (item.type === "folder") {
+      // Navigate or fetch contents
+      const res = await fetch(
+        `${VITE_API_URL}/folder-contents?folderId=${item.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const data = await res.json();
+      console.log("Folder contents:", data);
+      // You can navigate to a folder view route here if you have React Router:
+      // navigate(`/folder/${item.id}`);
+    } else if (item.type === "file") {
+      // Get signed URL
+      const res = await fetch(`${VITE_API_URL}/files/${item.id}/download`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const { url } = await res.json();
+
+      // Open or trigger download
+      window.open(url, "_blank");
+    }
+  } catch (err) {
+    console.error("Error opening item:", err);
+    push("Failed to open item", "error");
+  }
+};
+
 
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-white dark:bg-zinc-700 border-b border-gray-200 dark:border-zinc-900">
