@@ -342,24 +342,57 @@ const handleDelete = async (item) => {
       
     </>
   )}
-  {f.type === "folder" && (
-    <>
-      <button
-        onClick={async (e) => {
-          e.stopPropagation();
-          if (window.confirm(`Are you sure you want to delete folder "${f.name}" and its contents?`)) {
-            await handleDelete(f);
-          }
-        }}
-        className="text-red-600 hover:underline"
-        title="Delete Folder"
-      >
-        Delete
-      </button>
-    </>
-  )}
-</td>
+ {/* Folder actions */}
 
+                {f.type === "folder" && (
+
+                  <>
+
+                    <button
+
+                      onClick={(e) => {
+
+                        e.stopPropagation();
+
+                        setRenameTarget(f);
+
+                        setNewName(f.name);
+
+                      }}
+
+                      className="text-yellow-600 hover:underline"
+
+                    >
+
+                      Rename
+
+                    </button>
+
+                    <button
+
+                      onClick={async (e) => {
+
+                        e.stopPropagation();
+
+                        if (window.confirm(`Delete folder "${f.name}"?`)) {
+
+                          await handleDelete(f);
+
+                        }
+
+                      }}
+
+                      className="text-red-600 hover:underline"
+
+                    >
+
+                      Delete
+
+                    </button>
+
+                  </>
+                )}
+                </td>
             </tr>
           ))}
         </tbody>
