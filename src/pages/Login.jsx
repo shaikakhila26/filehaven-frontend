@@ -1,5 +1,5 @@
 
-import { useState } from "react"
+import { useState ,useEffect} from "react"
 import { useNavigate } from "react-router-dom"
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Wifi, WifiOff } from "lucide-react"
 
@@ -17,7 +17,7 @@ const Login = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const navigate = useNavigate()
 
-  useState(() => {
+  useEffect(() => {
     const handleOnline = () => setIsOnline(true)
     const handleOffline = () => setIsOnline(false)
 
@@ -83,7 +83,7 @@ const Login = () => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        setIsAuthenicated(true);
+       // setIsAuthenicated(true);
         navigate("/dashboard/home")
         setRetryCount(0)
       } else {
