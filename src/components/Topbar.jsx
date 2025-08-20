@@ -382,7 +382,7 @@ function TopbarInner() {
 
     if (item._kind === "folder") {
       // 👉 Redirect to MyDrive with folder id
-      navigate(`/my-drive?folder=${item.id}`);
+      navigate(`/mydrive?folder=${item.id}`);
     } else if (item._kind === "file") {
       try {
         const res = await fetch(`${API_BASE}/files/${item.id}/download`, {
