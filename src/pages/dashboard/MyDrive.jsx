@@ -165,6 +165,65 @@ const handleDelete = async (item) => {
 };
 
 
+// 🔹 NEW: Handle rename request
+
+  const handleRename = async () => {
+
+    if (!renameTarget || !newName.trim()) return;
+
+
+
+    try {
+
+      const res = await fetch(`${VITE_API_URL}/folders/${renameTarget.id}/rename`, {
+
+        method: "PATCH",
+
+        headers: {
+
+          "Content-Type": "application/json",
+
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+        },
+
+        body: JSON.stringify({ newName }),
+
+      });
+
+
+
+      if (!res.ok) {
+
+        const errData = await res.json();
+
+        alert("Rename failed: " + (errData.error || "Unknown error"));
+
+        return;
+
+      }
+
+
+
+      alert("Folder renamed!");
+
+      setRenameTarget(null);
+
+      setNewName("");
+
+      fetchFolderContents(currentFolder.id === "root" ? null : currentFolder.id);
+
+    } catch (err) {
+
+      console.error("Rename failed:", err);
+
+      alert("Error renaming folder");
+
+    }
+
+  };
+
+
 
 
   return (
@@ -224,7 +283,7 @@ const handleDelete = async (item) => {
                   ? (f.size_bytes / 1024).toFixed(2) + " KB"
                   : "-"}
               </td>
-              <td className="p-3  gap-2">
+              <td className="p-3  gap-2 flex items-center">
                 {f.type !== "folder" && (
                   <button
                     onClick={(e) => {
@@ -357,6 +416,63 @@ const handleDelete = async (item) => {
     </div>
   </div>
 )}
+
+
+{/* 🔹 Rename Modal */}
+
+      {renameTarget && (
+
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+
+          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+
+            <h2 className="text-lg font-bold mb-4">Rename Folder</h2>
+
+            <input
+
+              type="text"
+
+              value={newName}
+
+              onChange={(e) => setNewName(e.target.value)}
+
+              className="w-full border px-3 py-2 rounded mb-4"
+
+            />
+
+            <div className="flex justify-end gap-2">
+
+              <button
+
+                onClick={() => setRenameTarget(null)}
+
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+
+              >
+
+                Cancel
+
+              </button>
+
+              <button
+
+                onClick={handleRename}
+
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+
+              >
+
+                Save
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
 
 
     </div>
