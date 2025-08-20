@@ -9,25 +9,36 @@ const NewFolderModal = ({ onClose,parentId }) => {
   const [error, setError] = useState("");
 
   const handleCreate = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch(`${VITE_API_URL}/folders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ name ,parent_id: parentId ==="root" ? null: parentId }),
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error || "Failed to create folder");
-      onClose(); // Refresh file list if needed
-    } catch (err) {
-      setError(err.message);
+  setLoading(true);
+  setError("");
+  try {
+    const res = await fetch(`${VITE_API_URL}/folders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        name,
+        parentId: parentId === "root" ? null : parentId, // match backend param name
+      }),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || "Failed to create folder");
     }
-    setLoading(false);
-  };
+
+    const data = await res.json();
+    console.log("Folder created:", data);
+
+    onClose(); // close modal / refresh file list
+  } catch (err) {
+    setError(err.message);
+  }
+  setLoading(false);
+};
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
