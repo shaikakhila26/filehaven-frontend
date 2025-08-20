@@ -8,6 +8,7 @@ import { retryFetch } from "../utils/retryFetch";
 import useLRUCache from "../hooks/useLRUCache";
 import ToastProvider, { useToast } from "../context/ToastContext";
 import ThemeProvider from "../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 const SearchResults = lazy(() => import("./search/SearchResults"));
 const AdvancedSearchModal = lazy(() => import("./search/AdvancedSearchModal"));
