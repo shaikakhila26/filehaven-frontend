@@ -13,18 +13,18 @@ const FolderView = () => {
     })
       .then((res) => res.json())
       .then((data) => setContents(data))
-      .catch(() => setContents({ folders: [], files: [] }));
+      .catch(console.error);
   }, [id]);
 
   return (
     <div>
-      <h1 className="text-xl font-bold mb-4">📂 Folder</h1>
-      <ul className="bg-white shadow rounded divide-y">
+      <h1 className="text-2xl font-bold mb-4">📁 Folder</h1>
+      <ul>
         {contents.folders.map((f) => (
-          <li key={f.id} className="p-3">📁 {f.name}</li>
+          <li key={f.id}>{f.name}</li>
         ))}
         {contents.files.map((f) => (
-          <li key={f.id} className="p-3">📄 {f.name}</li>
+          <li key={f.id}>{f.name}</li>
         ))}
       </ul>
     </div>

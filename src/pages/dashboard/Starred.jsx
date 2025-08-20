@@ -25,13 +25,28 @@ const Starred = () => {
       .catch(() => setStarred([]));
   }, []);
 
-  const handleClick = (item) => {
+  const handleClick = async (item) => {
   if (item.type === "folder") {
     navigate(`/folder/${item.id}`);
   } else {
-    window.open(`${VITE_API_URL}/files/${item.id}/download`, "_blank");
+    // Fetch signed URL with token
+    try {
+      const res = await fetch(`${VITE_API_URL}/files/${item.id}/download`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.open(data.url, "_blank"); // open the signed URL
+      } else {
+        alert("Failed to generate download link");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error fetching file");
+    }
   }
 };
+
 
 
   return (
