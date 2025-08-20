@@ -25,6 +25,13 @@ const MyDrive = ({onFolderChange}) => {
   const [showShareFor, setShowShareFor] = useState(null); // The file object (or null)
 
 
+  // NEW: Rename modal state
+
+  const [renameTarget, setRenameTarget] = useState(null); // folder object
+
+  const [newName, setNewName] = useState("");
+
+
   // Fetch contents of a folder
   const fetchFolderContents = async (folderId) => {
     try {
