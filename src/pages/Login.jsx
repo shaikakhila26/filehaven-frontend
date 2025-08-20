@@ -82,8 +82,9 @@ const Login = () => {
       const data = await res.json()
 
       if (res.ok) {
-        localStorage.setItem("token", data.token)
-        navigate("/dashboard")
+        localStorage.setItem("token", data.token);
+        setIsAuthenicated(true);
+        navigate("/dashboard/home")
         setRetryCount(0)
       } else {
         if (res.status === 401) {

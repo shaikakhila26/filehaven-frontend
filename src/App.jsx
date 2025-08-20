@@ -15,14 +15,14 @@ import Storage from "./pages/dashboard/Storage";
 import { FolderProvider } from "./context/FolderContext";
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
 
   return (
     <FolderProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/register" element={<Register />} />
 
         {/** Dashboard nested routes */}
