@@ -5,7 +5,7 @@ import { Mail, Lock, Eye, EyeOff, AlertCircle, Wifi, WifiOff } from "lucide-reac
 
 const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
 
-const Login = () => {
+const Login = ({setIsAuthenticated}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -83,7 +83,7 @@ const Login = () => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-       // setIsAuthenicated(true);
+        setIsAuthenticated(true);
         navigate("/dashboard/home")
         setRetryCount(0)
       } else {
