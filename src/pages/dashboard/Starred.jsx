@@ -56,3 +56,6 @@ const Starred = () => {
     </div>
   );
 };
+
+
+export default Starred;
