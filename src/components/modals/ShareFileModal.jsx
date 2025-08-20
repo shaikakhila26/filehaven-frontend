@@ -148,16 +148,14 @@ export default function ShareFileModal({ file, onClose }) {
                   </a>
                   <div className="flex items-center gap-2">
                     <span className="bg-gray-200 px-1 rounded">{link.permission_type}</span>
-                    <button
-        onClick={() => {
-          navigator.clipboard.writeText(shareLink)
-            .then(() => alert("Link copied to clipboard"))
-            .catch(() => alert("Failed to copy link"));
-        }}
-        className="px-1 text-sm bg-gray-200 rounded"
+                    {/* Copy button */}
+      <button
+        className="text-blue-600 text-xs"
+        onClick={() => navigator.clipboard.writeText(link.url)}
       >
         Copy
       </button>
+                   
                     <button
                       className="text-red-600 text-xs"
                       onClick={() => handleRevokeLink(link)}
