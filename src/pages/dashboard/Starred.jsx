@@ -1,4 +1,6 @@
-import { useNavigate ,useEffect} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useEffect, useState } from "react";
 
 const Starred = () => {
   const [starred, setStarred] = useState([]);
