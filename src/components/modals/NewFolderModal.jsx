@@ -18,10 +18,11 @@ const NewFolderModal = ({ onClose,parentId }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify({
-        name,
-        parentId: parentId === "root" ? null : parentId, // match backend param name
-      }),
+     body: JSON.stringify({
+  name,
+  parent_id: parentId === "root" ? null : parentId, // match backend field
+}),
+
     });
 
     if (!res.ok) {
