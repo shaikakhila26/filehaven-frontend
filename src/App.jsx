@@ -13,6 +13,8 @@ import Starred from "./pages/dashboard/Starred";
 import Trash from "./pages/dashboard/Trash";
 import Storage from "./pages/dashboard/Storage";
 import { FolderProvider } from "./context/FolderContext";
+import SharedFile from "./pages/SharedFile";
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -24,6 +26,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/register" element={<Register />} />
+
+         <Route path="/s/:token" element={<SharedFile />} />
 
         {/** Dashboard nested routes */}
         <Route
@@ -37,6 +41,7 @@ function App() {
           <Route path="starred" element={<Starred />} />
           <Route path="trash" element={<Trash />} />
           <Route path="storage" element={<Storage />} />
+         
           <Route index element={<Navigate to="home" />} /> {/* default to home */}
         </Route>
 
