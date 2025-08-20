@@ -27,6 +27,7 @@ const debounce = (func, delay) => {
 
 function TopbarInner() {
   const { push } = useToast();
+  const navigate = useNavigate();
 
   // theme
   const [darkMode, setDarkMode] = useState(() => {
