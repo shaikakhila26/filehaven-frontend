@@ -18,17 +18,20 @@ const NewFolderModal = ({ onClose,parentId }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-     body: JSON.stringify({
+    body: JSON.stringify({
   name,
-  parent_id: parentId === "root" ? null : parentId, // match backend field
+  parent_id: parentId === "root" ? null : parentId, // snake_case to match backend
 }),
+
 
     });
 
     if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.error || "Failed to create folder");
-    }
+  const errText = await res.text();
+  console.error("Backend error:", errText);
+  throw new Error(errText || "Failed to create folder");
+}
+
 
     const data = await res.json();
     console.log("Folder created:", data);
