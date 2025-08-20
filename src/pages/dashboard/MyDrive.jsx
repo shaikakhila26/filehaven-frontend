@@ -13,7 +13,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
 const MyDrive = ({onFolderChange}) => {
   const [files, setFiles] = useState([]);
   const [showVersionsFor, setShowVersionsFor] = useState(null); // File object or null
-   const location = useLocation();
+   
 
 
   const { setCurrentFolderId } = useFolder();
@@ -118,19 +118,6 @@ const MyDrive = ({onFolderChange}) => {
     }
   };
 
-  useEffect(() => {
-    if (location.state?.folderId) {
-      setCurrentFolderId(location.state.folderId);
-      fetchFolderContents(location.state.folderId);
-    } else {
-      // root folder fetch
-      fetchFolderContents(null);
-    }
-
-    if (location.state?.fileId) {
-      setHighlightedFileId(location.state.fileId);
-    }
-  }, [location.state]);
 
   // Handle download
   // Handle download (works for both modal & table)
