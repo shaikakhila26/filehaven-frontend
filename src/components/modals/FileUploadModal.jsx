@@ -5,7 +5,7 @@ import { useFolder } from "../../context/FolderContext";
 const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 
-const FileUploadModal = ({ onClose , folderId }) => {
+const FileUploadModal = ({ onClose , folderId , onUploaded }) => {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState("");
   const inputRef = useRef();
@@ -37,10 +37,23 @@ const [textPreview, setTextPreview] = useState("");
     };
 
     xhr.onload = () => {
-      setStatus(xhr.status === 200 ? "Success!" : `Error: ${xhr.responseText}`);
-      setTimeout(onClose, 1500);
-    };
+      let apiRes = {};
+      try {
+        apiRes = JSON.parse(xhr.responseText);
+      } catch {
+        apiRes = {};
+      }
 
+      if ((xhr.status === 200 || xhr.status === 201) && apiRes.success) {
+        setStatus(apiRes.message || "Success!");
+        // Notify parent about upload so file list can refresh
+        if (onUploaded) onUploaded();
+        setTimeout(onClose, 1200);
+      } else {
+        const msg = apiRes.message || xhr.responseText || "Upload failed!";
+        setStatus("Error: " + msg);
+      }
+    };
     xhr.onerror = () => {
       setStatus("Failed to upload!");
     };

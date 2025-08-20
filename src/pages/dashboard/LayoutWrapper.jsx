@@ -15,6 +15,7 @@ const LayoutWrapper = () => {
 const [showFileUpload, setShowFileUpload] = useState(false);
 const [showFolderUpload, setShowFolderUpload] = useState(false);
 const {currentFolderId, setCurrentFolderId }= useFolder();
+const [showUpload, setShowUpload] = useState(false);
 
 
   useEffect(() => {
@@ -35,6 +36,12 @@ const {currentFolderId, setCurrentFolderId }= useFolder();
       setShowFolderUpload(true);
     }
   };
+
+  // Add this callback:
+const handleUploadSuccess = () => {
+  // This assumes you have a fetchFolderContents method.
+  fetchFolderContents(currentFolderId === "root" ? null : currentFolderId);
+};
 
   return (
     <Layout onNewClick={handleNewClick} storage={storage}>
@@ -68,8 +75,12 @@ const {currentFolderId, setCurrentFolderId }= useFolder();
         onClose={() => setShowFolderUpload(false)}
         onSuccess={() => {
           setShowFolderUpload(false);
+
           // Refresh file list and/or storage info if needed
-        }}
+        }
+    }
+    onUploaded={handleUploadSuccess} // Pass the callback
+
       />
     )}
     
