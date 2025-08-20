@@ -26,14 +26,13 @@ const Starred = () => {
   }, []);
 
   const handleClick = (item) => {
-    if (item.type === "folder") {
-      // Navigate to that folder’s page
-      navigate(`/folder/${item.id}`);
-    } else {
-      // Open file in new tab (preview/download)
-      window.open(`${VITE_API_URL}/files/${item.id}/download`, "_blank");
-    }
-  };
+  if (item.type === "folder") {
+    navigate(`/folder/${item.id}`);
+  } else {
+    window.open(`${VITE_API_URL}/files/${item.id}/download`, "_blank");
+  }
+};
+
 
   return (
     <div>

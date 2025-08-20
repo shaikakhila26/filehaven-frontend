@@ -16,6 +16,9 @@ import { FolderProvider } from "./context/FolderContext";
 import SharedFile from "./pages/SharedFile";
 
 
+import FolderView from "./pages/FolderView";
+
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
 
@@ -28,6 +31,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
          <Route path="/s/:token" element={<SharedFile />} />
+         <Route path="/folder/:id" element={<FolderView />} />
 
         {/** Dashboard nested routes */}
         <Route
