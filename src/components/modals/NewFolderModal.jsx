@@ -12,7 +12,7 @@ const NewFolderModal = ({ onClose,parentId }) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`{VITE_API_URL}/folders`, {
+      const res = await fetch(`${VITE_API_URL}/folders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
