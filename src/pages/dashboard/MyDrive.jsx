@@ -3,6 +3,8 @@ import { useFolder } from "../../context/FolderContext";
 import ShareFileModal from "../../components/modals/ShareFileModal"; // adjust the path as needed
 import FileListWithContextMenu from "../../context/FileListWithContextMenu";
 import FileVersionList from "../../components/FileVersionList"; // adjust path accordingly
+import { Star, StarOff } from "lucide-react";
+
 
 
 const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
@@ -231,6 +233,36 @@ const handleDelete = async (item) => {
   };
 
 
+  const toggleStar = async (item) => {
+  try {
+    const endpoint = item.type === "folder"
+      ? `${VITE_API_URL}/folders/${item.id}/star`
+      : `${VITE_API_URL}/files/${item.id}/star`;
+
+    const res = await fetch(endpoint, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ starred: !item.is_starred }),
+    });
+
+    if (!res.ok) throw new Error("Failed to star item");
+
+    // Optimistic update
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === item.id ? { ...f, is_starred: !f.is_starred } : f
+      )
+    );
+  } catch (err) {
+    console.error("Star toggle failed:", err);
+  }
+};
+
+
+
 
 
   return (
@@ -339,6 +371,23 @@ const handleDelete = async (item) => {
       >
         Manage Versions
       </button>
+
+      <button
+  onClick={(e) => {
+    e.stopPropagation();
+    toggleStar(f);
+  }}
+  title={f.is_starred ? "Unstar" : "Star"}
+  className="ml-2"
+>
+  {f.is_starred ? (
+  <Star className="text-yellow-500 w-5 h-5" />
+) : (
+  <StarOff className="text-gray-400 w-5 h-5" />
+)}
+
+</button>
+
       
     </>
   )}
@@ -367,6 +416,23 @@ const handleDelete = async (item) => {
                       Rename
 
                     </button>
+
+                    <button
+  onClick={(e) => {
+    e.stopPropagation();
+    toggleStar(f);
+  }}
+  title={f.is_starred ? "Unstar" : "Star"}
+  className="ml-2"
+>
+  {f.is_starred ? (
+  <Star className="text-yellow-500 w-5 h-5" />
+) : (
+  <StarOff className="text-gray-400 w-5 h-5" />
+)}
+
+</button>
+
 
                     <button
 
