@@ -4,6 +4,7 @@ import ShareFileModal from "../../components/modals/ShareFileModal"; // adjust t
 import FileListWithContextMenu from "../../context/FileListWithContextMenu";
 import FileVersionList from "../../components/FileVersionList"; // adjust path accordingly
 import { Star, StarOff } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -12,6 +13,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
 const MyDrive = ({onFolderChange}) => {
   const [files, setFiles] = useState([]);
   const [showVersionsFor, setShowVersionsFor] = useState(null); // File object or null
+   const location = useLocation();
 
 
   const { setCurrentFolderId } = useFolder();
@@ -32,7 +34,9 @@ const MyDrive = ({onFolderChange}) => {
   const [renameTarget, setRenameTarget] = useState(null); // folder object
 
   const [newName, setNewName] = useState("");
-
+ 
+ 
+  const [highlightedFileId, setHighlightedFileId] = useState(null);
 
   // Fetch contents of a folder
   const fetchFolderContents = async (folderId) => {
@@ -113,6 +117,20 @@ const MyDrive = ({onFolderChange}) => {
       console.error("Error opening file:", err);
     }
   };
+
+  useEffect(() => {
+    if (location.state?.folderId) {
+      setCurrentFolderId(location.state.folderId);
+      fetchFolderContents(location.state.folderId);
+    } else {
+      // root folder fetch
+      fetchFolderContents(null);
+    }
+
+    if (location.state?.fileId) {
+      setHighlightedFileId(location.state.fileId);
+    }
+  }, [location.state]);
 
   // Handle download
   // Handle download (works for both modal & table)

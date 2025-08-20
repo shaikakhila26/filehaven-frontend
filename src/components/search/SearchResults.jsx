@@ -4,6 +4,8 @@ import { MdFolder, MdInsertDriveFile } from "react-icons/md";
 import { splitByQuery } from "../../utils/highlightMatch";
 import { useNavigate } from "react-router-dom";
 
+const navigate = useNavigate();
+
 function Highlight({ text, query }) {
   const parts = useMemo(() => splitByQuery(text, query), [text, query]);
   return (

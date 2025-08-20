@@ -377,28 +377,21 @@ function TopbarInner() {
     window.location.href = "/login";
   };
 
- const openItem = async (item) => {
-    if (!item) return;
-
-    if (item._kind === "folder") {
-      // 👉 Redirect to MyDrive with folder id
-      navigate(`/mydrive?folder=${item.id}`);
-    } else if (item._kind === "file") {
-      try {
-        const res = await fetch(`${API_BASE}/files/${item.id}/download`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        const data = await res.json();
-        if (data.url) {
-          window.open(data.url, "_blank");
-        }
-      } catch (err) {
-        console.error("Error opening file:", err);
-        // 👉 fallback: redirect to MyDrive view
-        navigate(`/mydrive?file=${item.id}`);
+const openItem = (item) => {
+  if (item._kind === "folder" || item.type === "folder") {
+    navigate("/dashboard/my-drive", {
+      state: { folderId: item.id }
+    });
+  } else if (item._kind === "file" || item.type === "file") {
+    navigate("/dashboard/my-drive", {
+      state: {
+        fileId: item.id,
+        folderId: item.folderId || null
       }
-    }
-  };
+    });
+  }
+};
+
 
 
   return (
