@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const SHARE_API = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const SHARE_API = import.meta.env.VITE_API_URL ||"http://localhost:8080/api"; // adjust as needed
 
 const permissionOptions = [
   { value: "view", label: "Viewer" },
@@ -12,45 +12,34 @@ export default function ShareFileModal({ file, onClose }) {
   const [perm, setPerm] = useState("view");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [shareLink, setShareLink] = useState("");
   const [publicPerm, setPublicPerm] = useState("view");
-  const [people, setPeople] = useState([]);
-  const [links, setLinks] = useState([]);
+  const [people, setPeople] = useState([]); // [{email, permissionType}]
+  const [links, setLinks] = useState([]); // [{url, type, ...}]
 
-  // ---------- Load existing shares ----------
-  async function loadPermissions() {
-    try {
-      setError("");
-      const res = await fetch(`${SHARE_API}/files/${file.id}/permissions-list`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-      });
-      const data = await res.json();
-      if (data.success) setPeople(data.permissions || []);
-      else setError(data.error || "Error loading permissions");
-    } catch {
-      setError("Failed to load permissions");
-    }
-  }
-
-  async function loadLinks() {
-    try {
-      setError("");
-      const res = await fetch(`${SHARE_API}/files/${file.id}/share-links`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-      });
-      const data = await res.json();
-      if (data.success) setLinks(data.links || []);
-      else setError(data.error || "Error loading links");
-    } catch {
-      setError("Failed to load links");
-    }
-  }
-
+  // ------------- LOAD EXISTING SHARES/PERMISSIONS ---------------------
   useEffect(() => {
-    loadPermissions();
-    loadLinks();
+    setError("");
+    // Load current permissions (users this file is shared with)
+    fetch(`${SHARE_API}/files/${file.id}/permissions-list`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(res => res.json()).then(data => {
+        if (data.success) setPeople(data.permissions || []);
+        else setError(data.error || "Error loading permissions");
+      });
+
+    // Load share links
+    fetch(`${SHARE_API}/files/${file.id}/share-links`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(res => res.json()).then(data => {
+        if (data.success) setLinks(data.links || []);
+        else setError(data.error || "Error loading links");
+      });
   }, [file.id]);
 
-  // ---------- Create / Revoke link ----------
+  // ------------- CREATE/REVOKE SHARE LINK ------------------------
   async function handleCreateShareLink() {
     setLoading(true); setError("");
     const res = await fetch(`${SHARE_API}/files/${file.id}/share-link`, {
@@ -64,7 +53,8 @@ export default function ShareFileModal({ file, onClose }) {
     const data = await res.json();
     setLoading(false);
     if (data.url) {
-      await loadLinks();
+      setShareLink(data.url);
+      // You may want to refresh the links list here.
     } else setError(data.error || "Failed to create link");
   }
 
@@ -79,10 +69,11 @@ export default function ShareFileModal({ file, onClose }) {
     setLoading(false);
     if (data.success) {
       setLinks(links.filter(l => l.token !== link.token));
+      setShareLink("");
     } else setError(data.error || "Failed to revoke link");
   }
 
-  // ---------- Direct Email Share ----------
+  // ------------- DIRECT EMAIL SHARE ------------------------
   async function handleShareWithEmail() {
     if (!email) { setError("Specify a user email."); return; }
     setLoading(true); setError("");
@@ -115,7 +106,6 @@ export default function ShareFileModal({ file, onClose }) {
       setPeople(people.filter(p => p.email !== person.email));
     } else setError(data.error || "Failed to remove user");
   }
-
   // ---------- UI ----------
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
