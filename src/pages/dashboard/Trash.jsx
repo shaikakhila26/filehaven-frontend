@@ -104,8 +104,8 @@ const Trash = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4 flex items-center"><span role="img"  className="mr-2">🗑️</span>
-      Trash</h1>
+      <h1 className="text-2xl font-bold mb-4 flex items-center"><span role="img" aria-label="Trash" className="mr-2">🗑️</span>
+      </h1>
 
       {/* Breadcrumbs navigation */}
       <nav className="mb-4 text-sm text-gray-600">
