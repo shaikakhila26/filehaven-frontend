@@ -20,8 +20,11 @@ const FolderUploadModal = ({ onClose, onSuccess ,folderId}) => {
     formData.append("relativePath", relativePath); // optional, send path for folder mapping
 
 
+// When appending folder_id to FormData
 if (folderId && folderId !== "root" && folderId !== "null") {
   formData.append("folder_id", folderId);
+} else {
+  formData.append("folder_id", ""); // <-- ensure backend receives something
 }
 
 
