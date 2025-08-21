@@ -19,10 +19,13 @@ const FolderUploadModal = ({ onClose, onSuccess ,folderId}) => {
     formData.append("file", file);
     formData.append("relativePath", relativePath); // optional, send path for folder mapping
 
-    if (folderId && folderId !== "root") {
+
+if (folderId && folderId !== "root" && folderId !== "null") {
   formData.append("folder_id", folderId);
 }
 
+
+   
 
     const response = await fetch(`${VITE_API_URL}/upload`, {
       method: "POST",
