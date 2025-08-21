@@ -49,33 +49,61 @@ const Starred = () => {
 
 
 
-  return (
-    <div>
+ return (
+
+    <div className="p-4">
+
       <h1 className="text-2xl font-bold mb-4">⭐ Starred Items</h1>
+
       <ul className="bg-white shadow rounded divide-y">
+
         {starred.length > 0 ? (
+
           starred.map((s) => (
+
             <li
+
               key={s.id}
-              className="p-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
+
+              className="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 cursor-pointer"
+
               onClick={() => handleClick(s)}
+
             >
-              <div className="flex items-center gap-2">
+
+              <div className="flex items-center gap-2 mb-1 sm:mb-0">
+
                 {s.type === "folder" ? "📁" : "📄"}
+
                 <span>{s.name}</span>
+
               </div>
+
               <span className="text-sm text-gray-500">
+
                 {new Date(s.created_at).toLocaleDateString()}
+
               </span>
+
             </li>
+
           ))
+
         ) : (
+
           <li className="p-3 text-gray-500">No starred items yet</li>
+
         )}
+
       </ul>
+
     </div>
+
   );
+
 };
+
+
 
 
 export default Starred;

@@ -59,30 +59,35 @@ export default function NotificationsPanel({ apiBase, token, onConnectedChange }
       setUnreadCount(prev => Math.max(0, prev + (read ? -1 : 1)));
     }
   };
-
-  return (
+ return (
     <div className="max-h-64 overflow-y-auto" aria-live="polite">
       {items.length > 0 ? (
         items.map((n) => (
           <div
             key={n.id}
-            className={`p-4 border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800 ${!n.read ? "bg-blue-50 dark:bg-zinc-800/60" : ""}`}
+            className={`p-4 border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800 ${
+              !n.read ? "bg-blue-50 dark:bg-zinc-800/60" : ""
+            }`}
           >
             <div className="flex items-start justify-between gap-3">
-              <div className="text-sm text-white-900 dark:text-zinc-100">{n.message}</div>
+              <p className="text-sm text-gray-900 dark:text-zinc-100">
+                {n.message}
+              </p>
               <button
-                className="text-xs px-2 py-1 border rounded hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="text-xs px-2 py-1 border rounded text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
                 onClick={() => markRead(n.id, !n.read)}
                 aria-label={n.read ? "Mark as unread" : "Mark as read"}
               >
                 {n.read ? "Unread" : "Read"}
               </button>
             </div>
-            <div className="text-xs text-white-500 mt-1">{n.time}</div>
+            <p className="text-xs text-gray-500 mt-1">{n.time}</p>
           </div>
         ))
       ) : (
-        <div className="p-4 text-center text-gray-500">No notifications</div>
+        <div className="p-4 text-center text-gray-500 dark:text-zinc-400">
+          No notifications
+        </div>
       )}
     </div>
   );

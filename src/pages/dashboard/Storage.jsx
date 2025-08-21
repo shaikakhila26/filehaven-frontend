@@ -42,20 +42,33 @@ const Storage = () => {
   const totalMB = formatMB(storage.total);
   const percentage = storage.total > 0 ? (storage.used / storage.total) * 100 : 0;
 
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">💾 Storage</h1>
-      <p>
-        {usedMB} MB used of {totalMB} MB
-      </p>
-      <div className="h-3 bg-gray-200 rounded-full mt-2">
-        <div
-          className="h-3 bg-blue-500 rounded-full"
-          style={{ width: `${percentage.toFixed(2)}%` }}
-        />
-      </div>
-    </div>
-  );
-};
+    return (
 
+    <div className="p-4">
+
+      <h1 className="text-2xl font-bold mb-4">💾 Storage</h1>
+
+      <p className="mb-2">
+
+        {usedMB} MB used of {totalMB} MB
+
+      </p>
+
+      <div className="w-full h-3 bg-gray-200 rounded-full">
+
+        <div
+
+          className="h-3 bg-blue-500 rounded-full transition-all duration-300"
+
+          style={{ width: `${percentage.toFixed(2)}%` }}
+
+        />
+
+      </div>
+
+    </div>
+
+  );
+
+};
 export default Storage;

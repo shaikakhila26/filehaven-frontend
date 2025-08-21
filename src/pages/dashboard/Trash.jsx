@@ -146,50 +146,105 @@ const Trash = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4 flex items-center"><span role="img" aria-label="Trash" className="mr-2">🗑️</span>
-      Trash</h1>
+
+    <div className="p-4">
+
+      <h1 className="text-2xl font-bold mb-4 flex items-center">
+
+        <span role="img" aria-label="Trash" className="mr-2">🗑️</span>
+
+        Trash
+
+      </h1>
+
+
 
       {/* Breadcrumbs navigation */}
-      <nav className="mb-4 text-sm text-gray-600">
+
+      <nav className="mb-4 text-sm text-gray-600 flex flex-wrap gap-1">
+
         {breadcrumbs.map((b, idx) => (
+
           <span key={b.id}>
+
             {idx > 0 && ' › '}
+
             <button
+
               disabled={idx === breadcrumbs.length - 1}
+
               onClick={() => onBreadcrumbClick(idx)}
+
               className={`
+
                 ${idx === breadcrumbs.length - 1
+
                   ? "cursor-default font-semibold text-black"
+
                   : "text-blue-600 cursor-pointer underline"
+
                 }`}
+
             >
+
               {b.name}
+
             </button>
+
           </span>
+
         ))}
+
       </nav>
 
+
+
       {loading && <div>Loading...</div>}
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr className="border-b text-left">
-            <th className="p-3">Name</th>
-            <th className="p-3">Deleted On</th>
-            <th className="p-3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderFolderContents([...folders, ...files])}
-          {folders.length === 0 && files.length === 0 && !loading && (
-            <tr>
-              <td colSpan={3} className="p-4 text-gray-400 text-center">No items in trash.</td>
+
+      <div className="overflow-x-auto shadow-md rounded-lg">
+
+        <table className="w-full bg-white">
+
+          <thead>
+
+            <tr className="border-b text-left">
+
+              <th className="p-3">Name</th>
+
+              <th className="p-3">Deleted On</th>
+
+              <th className="p-3">Actions</th>
+
             </tr>
-          )}
-        </tbody>
-      </table>
+
+          </thead>
+
+          <tbody>
+
+            {renderFolderContents([...folders, ...files])}
+
+            {folders.length === 0 && files.length === 0 && !loading && (
+
+              <tr>
+
+                <td colSpan={3} className="p-4 text-gray-400 text-center">No items in trash.</td>
+
+              </tr>
+
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
+
   );
+
 };
+
+
 
 export default Trash;

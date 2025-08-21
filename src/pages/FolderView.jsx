@@ -40,30 +40,67 @@ const FolderView = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">📁 Folder</h1>
-      <ul className="bg-white shadow rounded divide-y">
+
+    <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4">
+
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">
+
+        📁 Folder
+
+      </h1>
+
+
+
+      <ul className="bg-white shadow rounded-lg divide-y sm:divide-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
+
         {contents.folders.map((f) => (
+
           <li
+
             key={f.id}
-            className="p-3 hover:bg-gray-50 cursor-pointer"
+
+            className="p-3 sm:p-4 hover:bg-gray-50 cursor-pointer flex items-center rounded sm:shadow-sm"
+
             onClick={() => handleClick(f, "folder")}
+
           >
-            📁 {f.name}
+
+            <span className="mr-2">📁</span>
+
+            <span className="truncate">{f.name}</span>
+
           </li>
+
         ))}
+
         {contents.files.map((f) => (
+
           <li
+
             key={f.id}
-            className="p-3 hover:bg-gray-50 cursor-pointer"
+
+            className="p-3 sm:p-4 hover:bg-gray-50 cursor-pointer flex items-center rounded sm:shadow-sm"
+
             onClick={() => handleClick(f, "file")}
+
           >
-            📄 {f.name}
+
+            <span className="mr-2">📄</span>
+
+            <span className="truncate">{f.name}</span>
+
           </li>
+
         ))}
+
       </ul>
+
     </div>
+
   );
+
 };
+
+
 
 export default FolderView;

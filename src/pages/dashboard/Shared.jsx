@@ -33,37 +33,70 @@ const Shared = () => {
 };
 
 
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">🔗 Shared with Me</h1>
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr className="text-left border-b">
-            <th className="p-3">Name</th>
-            <th className="p-3">Shared By</th>
-            <th className="p-3">Date Shared</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sharedFiles.map((f, idx) => (
-            <tr key={idx} className="border-b hover:bg-gray-50">
-              <td className="p-3">
-  <button
-    onClick={() => openSharedFile(f.id)}
-    className="text-blue-600 underline"
-  >
-    {f.name}
-  </button>
-</td>
+return (
 
-              <td className="p-3">{f.shared_by}</td>
-              <td className="p-3">{new Date(f.shared_at).toLocaleDateString()}</td>
+    <div className="p-4">
+
+      <h1 className="text-2xl font-bold mb-4">🔗 Shared with Me</h1>
+
+      <div className="overflow-x-auto shadow-md rounded-lg">
+
+        <table className="w-full bg-white">
+
+          <thead>
+
+            <tr className="text-left border-b">
+
+              <th className="p-3">Name</th>
+
+              <th className="p-3">Shared By</th>
+
+              <th className="p-3">Date Shared</th>
+
             </tr>
-          ))}
-        </tbody>
-      </table>
+
+          </thead>
+
+          <tbody>
+
+            {sharedFiles.map((f, idx) => (
+
+              <tr key={idx} className="border-b hover:bg-gray-50">
+
+                <td className="p-3">
+
+                  <button
+
+                    onClick={() => openSharedFile(f.id)}
+
+                    className="text-blue-600 underline"
+
+                  >
+
+                    {f.name}
+
+                  </button>
+
+                </td>
+
+                <td className="p-3">{f.shared_by}</td>
+
+                <td className="p-3">{new Date(f.shared_at).toLocaleDateString()}</td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
+
   );
+
 };
 
 export default Shared;

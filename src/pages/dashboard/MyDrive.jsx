@@ -193,7 +193,7 @@ const MyDrive = ({ onFolderChange }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">📂 My Drive</h1>
 
       {/* Breadcrumbs */}
@@ -247,7 +247,7 @@ const MyDrive = ({ onFolderChange }) => {
                     ? (f.size_bytes / 1024).toFixed(2) + " KB"
                     : "-"}
                 </td>
-                <td className="p-3 flex items-center justify-center gap-3">
+                <td className="p-3 flex items-center justify-center gap-2 sm:gap-3">
                   {/* Star */}
                   <button onClick={(e) => { e.stopPropagation(); toggleStar(f); }}>
                     {f.is_starred ? <Star className="w-5 h-5 text-yellow-500" /> : <StarOff className="w-5 h-5 text-gray-400" />}
@@ -293,11 +293,11 @@ const MyDrive = ({ onFolderChange }) => {
         {previewFile && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
           >
             <motion.div
               initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
-              className="bg-white p-6 rounded-lg shadow-lg max-w-3xl max-h-[90%] overflow-auto"
+              className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full max-h-[90vh] overflow-auto"
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">{previewFile.name}</h2>
@@ -324,8 +324,8 @@ const MyDrive = ({ onFolderChange }) => {
 
       {/* Versions Modal */}
       {showVersionsFor && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl max-h-[80vh] overflow-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full max-h-[80vh] overflow-auto">
             <button onClick={() => setShowVersionsFor(null)} className="float-right mb-2">
               <X className="w-5 h-5 text-gray-500 hover:text-black" />
             </button>
@@ -337,7 +337,7 @@ const MyDrive = ({ onFolderChange }) => {
 
       {/* Rename Modal */}
       {renameTarget && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2 className="text-lg font-bold mb-4">Rename Folder</h2>
             <input
