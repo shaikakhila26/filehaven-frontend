@@ -96,17 +96,17 @@ useEffect(() => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white rounded shadow p-6 min-w-[300px]">
+      <div className="bg-white rounded shadow p-4 max-w-xs w-full">
         <h2 className="text-xl font-bold mb-2">Upload File</h2>
         <div
-          className="border-2 border-dashed rounded p-6 mb-4 text-center text-gray-500"
+          className="border-2 border-dashed rounded p-4 mb-4 text-center text-gray-500"
           onDrop={onDrop}
           onDragOver={e => e.preventDefault()}
         >
           Drag & drop file here or{" "}
-          <input type="file" ref={inputRef} onChange={onFileChange} className="inline-block"/>
+          <input type="file" ref={inputRef} onChange={onFileChange} className="mt-2 block w-full"/>
           {previewFile && (
-  <div className="mb-4">
+  <div className="mb-4 max-h-[40vh] overflow-y-auto">
     <div className="font-semibold">Preview:</div>
     {previewFile.type.startsWith("image/") ? (
       <img src={previewUrl} alt="preview" className="max-h-48 max-w-full mt-2" />
@@ -114,11 +114,11 @@ useEffect(() => {
       <iframe
         src={previewUrl}
         title="PDF Preview"
-        className="w-full h-48 mt-2"
+        className="w-full h-[30vh] mt-2"
         style={{ border: 0 }}
       />
     ) : previewFile.type.startsWith("text/") || previewFile.type === "application/json" ? (
-      <pre className="bg-gray-100 p-2 rounded max-h-48 overflow-auto mt-2">{textPreview}</pre>
+      <pre className="bg-gray-100 p-2 rounded max-h-[30vh] overflow-auto mt-2">{textPreview}</pre>
     ) : (
       <div className="mt-2 text-gray-500 italic">No preview available for this file type.</div>
     )}
@@ -130,7 +130,7 @@ useEffect(() => {
           {progress > 0 && <div>Progress: {progress}%</div>}
           {status && <div className={status === "Success!" ? "text-green-600" : "text-red-600"}>{status}</div>}
         </div>
-        <button className="bg-gray-300 px-3 py-1 rounded" onClick={onClose}>Close</button>
+        <button className="bg-gray-300 px-3 py-1 rounded w-full" onClick={onClose}>Close</button>
       </div>
     </div>
   );
