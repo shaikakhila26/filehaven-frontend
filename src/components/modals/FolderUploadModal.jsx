@@ -24,7 +24,7 @@ const FolderUploadModal = ({ onClose, onSuccess ,folderId}) => {
 if (folderId && folderId !== "root" && folderId !== "null") {
   formData.append("folder_id", folderId);
 } else {
-  formData.append("folder_id", ""); // <-- ensure backend receives something
+  formData.append("folder_id", null); // <-- ensure backend receives something
 }
 
 
