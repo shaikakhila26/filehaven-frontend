@@ -57,7 +57,18 @@ const handleUploadSuccess = () => {
           setShowNewFolder(false);
           // Refresh file list and/or storage info if needed
         }}
-      />
+        className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"
+
+      >
+
+        <div className="bg-white rounded shadow p-6 max-w-xs w-full">
+
+          {/* Modal content will be handled in NewFolderModal */}
+
+        </div>
+
+      </NewFolderModal>
+      
     )}
     {showFileUpload && (
       <FileUploadModal
@@ -66,8 +77,20 @@ const handleUploadSuccess = () => {
         onSuccess={() => {
           setShowFileUpload(false);
           // Refresh file list and/or storage info if needed
+          
         }}
-      />
+        className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"
+
+      >
+
+        <div className="bg-white rounded shadow p-6 max-w-xs w-full">
+
+          {/* Modal content will be handled in FileUploadModal */}
+
+        </div>
+
+      </FileUploadModal>
+      
     )}
     {showFolderUpload && (
       <FolderUploadModal
@@ -80,8 +103,21 @@ const handleUploadSuccess = () => {
         }
     }
     onUploaded={handleUploadSuccess} // Pass the callback
+   
 
-      />
+        className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4"
+
+      >
+
+        <div className="bg-white rounded shadow p-6 max-w-md w-full">
+
+          {/* Modal content will be handled in FolderUploadModal */}
+
+        </div>
+
+      </FolderUploadModal>
+
+      
     )}
     
     </Layout>
