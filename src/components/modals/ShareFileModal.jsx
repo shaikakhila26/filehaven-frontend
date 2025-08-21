@@ -161,19 +161,19 @@ export default function ShareFileModal({ file, onClose }) {
 
   // ---------- UI ----------
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-[460px] max-w-full shadow-lg">
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white p-6 rounded-lg w-[460px] max-w-md w-full shadow-lg">
         <h2 className="text-xl font-bold mb-3">Share "{file.name}"</h2>
         {error && <div className="text-red-600 mb-2">{error}</div>}
 
         {/* Public Link */}
         <div className="mb-5">
           <label className="block mb-2 font-medium">Get shareable link</label>
-          <div className="flex gap-2 items-center mb-2">
+          <div className="flex flex-col sm:flex-row gap-2 items-center mb-2">
             <select
               value={publicPerm}
               onChange={(e) => setPublicPerm(e.target.value)}
-              className="border p-1 rounded flex-1"
+              className="border p-1 rounded w-full sm:w-auto mb-2 sm:mb-0"
             >
               {permissionOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -181,7 +181,7 @@ export default function ShareFileModal({ file, onClose }) {
             </select>
             <button
               onClick={handleCreateShareLink}
-              className="bg-blue-600 text-white px-3 py-1 rounded"
+              className="bg-blue-600 text-white px-3 py-1 rounded w-full sm:w-auto"
               disabled={loading}
             >
               Create
@@ -193,13 +193,13 @@ export default function ShareFileModal({ file, onClose }) {
               {links.map((link) => (
                 <div
                   key={link.token}
-                  className="flex items-center justify-between text-xs bg-gray-100 rounded p-2"
+                  className="flex flex-col sm:flex-row items-center justify-between text-xs bg-gray-100 rounded p-2"
                 >
                   <a
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline truncate max-w-[250px]"
+                    className="text-blue-600 underline truncate max-w-[250px] mb-2 sm:mb-0"
                     title={link.url}
                   >
                     {link.url}
@@ -234,9 +234,9 @@ export default function ShareFileModal({ file, onClose }) {
         {/* Share with specific people */}
         <div className="mb-5">
           <div className="font-medium mb-2">Share with a person:</div>
-          <div className="flex gap-2 mb-2">
+          <div className="flex flex-col sm:flex-row gap-2 mb-2">
             <input
-              className="border p-1 rounded flex-1"
+              className="border p-1 rounded w-full sm:w-auto mb-2 sm:mb-0"
               placeholder="user@example.com"
               type="email"
               value={email}
@@ -245,7 +245,7 @@ export default function ShareFileModal({ file, onClose }) {
             <select
               value={perm}
               onChange={(e) => setPerm(e.target.value)}
-              className="border p-1 rounded"
+              className="border p-1 rounded w-full sm:w-auto mb-2 sm:mb-0"
             >
               {permissionOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -253,7 +253,7 @@ export default function ShareFileModal({ file, onClose }) {
             </select>
             <button
               onClick={handleShareWithEmail}
-              className="bg-blue-600 text-white px-3 py-1 rounded"
+              className="bg-blue-600 text-white px-3 py-1 rounded w-full sm:w-auto"
               disabled={loading}
             >
               Share
@@ -269,7 +269,7 @@ export default function ShareFileModal({ file, onClose }) {
             {people.map((person) => (
               <div
                 key={person.email || person.sharedWith}
-                className="flex items-center justify-between text-xs bg-gray-100 rounded p-2"
+                className="flex flex-col sm:flex-row items-center justify-between text-xs bg-gray-100 rounded p-2"
               >
                 <span>{person.email || person.sharedWith}</span>
                 <div className="flex items-center gap-2">

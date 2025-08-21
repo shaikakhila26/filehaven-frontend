@@ -45,8 +45,8 @@ const NewFolderModal = ({ onClose,parentId }) => {
 
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white rounded shadow p-6 min-w-[300px]">
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded shadow p-4 max-w-xs w-full">
         <h2 className="text-xl font-bold mb-2">Create New Folder</h2>
         <input
           className="w-full p-2 border rounded mb-2"
@@ -55,11 +55,11 @@ const NewFolderModal = ({ onClose,parentId }) => {
           onChange={e => setName(e.target.value)}
         />
         {error && <div className="text-red-600 mb-2">{error}</div>}
-        <div className="flex gap-2">
-          <button className="bg-blue-600 text-white px-3 py-1 rounded" onClick={handleCreate} disabled={loading || !name}>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <button className="bg-blue-600 text-white px-3 py-1 rounded w-full sm:w-auto" onClick={handleCreate} disabled={loading || !name}>
             {loading ? "Creating..." : "Create"}
           </button>
-          <button className="bg-gray-300 px-3 py-1 rounded" onClick={onClose}>Cancel</button>
+          <button className="bg-gray-300 px-3 py-1 rounded w-full sm:w-auto" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>

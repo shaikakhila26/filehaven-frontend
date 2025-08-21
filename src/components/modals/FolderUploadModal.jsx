@@ -83,8 +83,8 @@ if (folderId && folderId !== "root" && folderId !== "null") {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white rounded shadow p-6 w-[400px] max-w-full">
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded shadow p-4  max-w-md w-full">
         <h2 className="text-xl font-bold mb-4">Upload Folder</h2>
 
         <input
@@ -93,7 +93,7 @@ if (folderId && folderId !== "root" && folderId !== "null") {
           webkitdirectory="true"
           directory="true"
           multiple
-          className="mb-4"
+          className="mb-4 w-full"
           onChange={onInputChange}
         />
 
@@ -116,7 +116,7 @@ if (folderId && folderId !== "root" && folderId !== "null") {
           <button 
             onClick={onClose} 
             disabled={uploading}
-            className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 transition"
+            className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 transition w-full"
           >
             Close
           </button>
