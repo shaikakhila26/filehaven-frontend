@@ -107,32 +107,37 @@ export default function ShareFileModal({ file, onClose }) {
 
   // ------------- DIRECT EMAIL SHARE ------------------------
   async function handleShareWithEmail() {
-    if (!email) {
-      setError("Specify a user email.");
-      return;
-    }
-    setLoading(true);
-    setError("");
-    if (!file || !file.id) {
-      setError("Invalid file data");
-      setLoading(false);
-      return;
-    }
-    const res = await fetch(`${SHARE_API}/files/${file.id}/permissions`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sharedWith: email, permissionType: perm }),
-    });
-    const data = await res.json();
-    setLoading(false);
-    if (data.success) {
-      setPeople([...people.filter((p) => p.email !== email), { email, permissionType: perm }]);
-      setEmail("");
-    } else setError(data.error || "Failed to share");
+  if (!email) {
+    setError("Specify a user email.");
+    return;
   }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setError("Invalid email format.");
+    return;
+  }
+  setLoading(true);
+  setError("");
+  if (!file || !file.id) {
+    setError("Invalid file data");
+    setLoading(false);
+    return;
+  }
+  const res = await fetch(`${SHARE_API}/files/${file.id}/permissions`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ sharedWith: email, permissionType: perm }),
+  });
+  const data = await res.json();
+  setLoading(false);
+  if (data.success) {
+    setPeople([...people, ...(data.permissions || [{ email, permissionType: perm }])]);
+    setEmail("");
+  } else setError(data.error || "Failed to share");
+}
 
   async function handleRemovePerson(person) {
     setLoading(true);
