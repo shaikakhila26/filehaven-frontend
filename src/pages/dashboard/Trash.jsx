@@ -123,7 +123,7 @@ const Trash = () => {
           )}
         </td>
         <td className="p-3 text-sm text-gray-400">
-          {new Date(item.updated_at || item.deleted_at || item.created_at).toLocaleDateString()}
+          {new Date(item.updated_at || item.created_at).toLocaleDateString()} {/* Use updated_at or created_at */}
         </td>
         <td className="p-3 flex gap-2">
           <button
