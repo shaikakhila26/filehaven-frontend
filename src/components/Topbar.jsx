@@ -411,21 +411,21 @@ function TopbarInner() {
     }
   };
 
+return (
+    <div className="flex items-center justify-between px-6 py-3 bg-white dark:bg-zinc-700 border-b border-gray-200 dark:border-zinc-900">
+      
 
- return (
-    <div className="flex items-center justify-between px-4 sm:px-6 py-2 sm:py-3 bg-white dark:bg-zinc-700 border-b border-gray-200 dark:border-zinc-900 relative">
-      {/* Left Section */}
-      <div className="flex items-center gap-3 sm:gap-6 flex-1">
+      <div className="flex items-center gap-6 flex-1">
         {/* Brand */}
-        <div className="flex items-center gap-2 sm:gap-3" aria-label="FileHaven brand">
-          <img src="/logo.jpg" alt="FileHaven Logo" className="h-8 rounded-lg" />
-          <span className="hidden sm:block text-lg sm:text-xl font-normal text-gray-700 dark:text-zinc-100">
-            FileHaven
-          </span>
+        <div className="flex items-center gap-3" aria-label="FileHaven brand">
+         
+             <img src="/logo.jpg" alt="FileHaven Logo" className="h-8 rounded-lg" />
+          
+          <span className="text-xl font-normal text-gray-700 dark:text-zinc-100">FileHaven</span>
         </div>
 
-        {/* Search (desktop) */}
-        <div className="hidden md:block flex-1 max-w-xl relative" ref={searchRef}>
+        {/* Search */}
+        <div className="flex-1 max-w-xl relative" ref={searchRef}>
           <div className="relative">
             <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
             <input
@@ -437,12 +437,13 @@ function TopbarInner() {
               value={searchQuery}
               onChange={(e) => handleSearchInput(e.target.value)}
               onFocus={() => searchQuery && setShowSearchResults(true)}
-              className="w-full pl-12 pr-32 py-2 sm:py-3 bg-gray-100 dark:bg-zinc-900 rounded-full focus:outline-none focus:bg-white dark:focus:bg-zinc-900 focus:shadow-md transition-all duration-200 text-gray-700 dark:text-zinc-100"
+              className="w-full pl-12 pr-32 py-3 bg-gray-100 dark:bg-zinc-900 rounded-full focus:outline-none focus:bg-white dark:focus:bg-zinc-900 focus:shadow-md transition-all duration-200 text-gray-700 dark:text-zinc-100"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
               <button
                 onClick={() => setShowAdvancedSearch(true)}
-                className="px-2 sm:px-3 py-1 text-xs text-gray-600 dark:text-zinc-200 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-800 rounded-full transition-all duration-200 border border-gray-300 dark:border-zinc-700 hover:border-blue-300"
+                className="px-3 py-1 text-xs text-gray-600 dark:text-zinc-200 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-800 rounded-full transition-all duration-200 border border-gray-300 dark:border-zinc-700 hover:border-blue-300"
+                aria-label="Open advanced search"
               >
                 Advanced
               </button>
@@ -453,6 +454,8 @@ function TopbarInner() {
                     setSearchQuery("");
                     setShowSearchResults(false);
                     setSearchResults({ files: [], folders: [] });
+                    filesAbortRef.current?.abort();
+                    foldersAbortRef.current?.abort();
                   }}
                   className="p-2 text-gray-400 hover:text-gray-600 rounded-full"
                   aria-label="Clear search"
@@ -479,50 +482,42 @@ function TopbarInner() {
         </div>
       </div>
 
-      {/* Right Section */}
+      {/* Right actions */}
       <div className="flex items-center gap-2">
-        {/* Mobile Search Button */}
-        <button
-          onClick={() => setMobileSearchOpen((v) => !v)}
-          className="md:hidden p-2 text-gray-600 dark:text-zinc-200"
-        >
-          <FaSearch />
-        </button>
-
-        {/* Dark Mode Toggle */}
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="hidden sm:flex items-center w-full p-2 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-full"
+          className="flex items-center w-full p-2 hover:bg-gray-300 dark:hover:bg-gray-500"
         >
-          {darkMode ? "☀️ Light" : "🌙 Dark"}
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
         </button>
 
         {/* Notifications */}
         <div className="relative" ref={notificationsRef}>
           <button
-            onClick={() => setShowNotifications((v) => !v)}
-            className="p-2 sm:p-3 text-gray-600 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-400 rounded-full relative"
+            onClick={() => setShowNotifications(v => !v)}
+            className="p-3 text-gray-600 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-400 rounded-full relative"
+            aria-haspopup="menu"
+            aria-expanded={showNotifications}
+            aria-label="Open notifications"
           >
-            <FaBell className="text-lg sm:text-xl" />
+            <FaBell className="text-xl" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {showNotifications && (
-            <div className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-white dark:bg-zinc-700 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 z-50">
-              <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-zinc-700">
+            <div className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-zinc-700 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 z-50">
+              <div className="p-4 border-b border-gray-200 dark:border-zinc-700">
                 <h3 className="font-medium text-gray-900 dark:text-zinc-100">Notifications</h3>
               </div>
               <Suspense fallback={<div className="p-4 text-center text-gray-500">Loading…</div>}>
                 <NotificationsPanel
                   apiBase={VITE_API_URL}
-                  token="token"
-                  onConnectedChange={(ok) => {
-                    if (!ok) setBackendConnected(false);
-                  }}
+                  token={token}
+                  onConnectedChange={(ok) => { if (!ok) setBackendConnected(false); }}
                   onUnreadChange={(count) => setUnreadCount(count)}
                 />
               </Suspense>
@@ -530,137 +525,110 @@ function TopbarInner() {
           )}
         </div>
 
-        {/* User Menu */}
-        <div className="relative" ref={userMenuRef}>
-          <button
-            onClick={() => setShowUserMenu((v) => !v)}
-            className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center rounded-full font-medium text-sm cursor-pointer hover:shadow-md"
-          >
-            {userData.avatar ? (
-              <img
-                src={userData.avatar || "/placeholder.svg"}
-                alt="Profile"
-                className="w-8 h-8 rounded-full object-cover"
-                onError={(e) => (e.currentTarget.style.display = "none")}
-              />
-            ) : (
-              <span>{userData.initials}</span>
-            )}
-          </button>
+        
 
-          {showUserMenu && (
-            <div className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-white dark:bg-zinc-900 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 z-50">
-              {/* Profile header */}
-              <div className="p-4 border-b border-gray-200 dark:border-zinc-700 flex items-center gap-3">
-                {userData.avatar ? (
-                  <img
-                    src={userData.avatar || "/placeholder.svg"}
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full object-cover"
-                    onError={(e) => (e.currentTarget.style.display = "none")}
-                  />
-                ) : (
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center rounded-full font-medium">
-                    {userData.initials}
-                  </div>
-                )}
-                <div>
-                  <div className="font-medium text-gray-900 dark:text-zinc-100">{userData.name}</div>
-                  <div className="text-sm text-gray-500">{userData.email}</div>
-                </div>
-              </div>
+        {/* User menu */}
+        {/* ...keep your existing user menu from your current file... */}
+        {/* User menu */}
+<div className="relative" ref={userMenuRef}>
+  <button
+    onClick={() => setShowUserMenu(v => !v)}
+    className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center rounded-full font-medium text-sm cursor-pointer hover:shadow-md"
+    aria-haspopup="menu"
+    aria-expanded={showUserMenu}
+    aria-label="Open user menu"
+  >
+    {userData.avatar ? (
+      <img
+        src={userData.avatar || "/placeholder.svg"}
+        alt="Profile"
+        className="w-8 h-8 rounded-full object-cover"
+        onError={(e) => (e.currentTarget.style.display = "none")}
+      />
+    ) : (
+      <span>{userData.initials}</span>
+    )}
+  </button>
 
-              {/* Storage info */}
-              <div className="px-4 py-2 border-b border-gray-200 dark:border-zinc-700">
-                <div className="flex justify-between text-sm text-gray-600 dark:text-zinc-300 mb-1">
-                  <span>Storage</span>
-                  <span>
-                    {formatFileSize(userData.storageUsed)} / {formatFileSize(userData.storageTotal)}
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
-                  <div className="bg-blue-600 h-2" style={{ width: `${getStoragePercentage()}%` }} />
-                </div>
-              </div>
-
-              {/* Menu buttons */}
-              <div className="py-2">
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800">
-                  Account Settings
-                </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800">
-                  Storage Settings
-                </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800">
-                  Privacy & Security
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 rounded-b-lg"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
+  {showUserMenu && (
+    <div className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-zinc-900 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 z-50">
+      {/* Profile header */}
+      <div className="p-4 border-b border-gray-200 dark:border-zinc-700 flex items-center gap-3">
+        {userData.avatar ? (
+          <img
+            src={userData.avatar || "/placeholder.svg"}
+            alt="Profile"
+            className="w-12 h-12 rounded-full object-cover"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        ) : (
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center rounded-full font-medium">
+            {userData.initials}
+          </div>
+        )}
+        <div>
+          <div className="font-medium text-gray-900 dark:text-zinc-100">{userData.name}</div>
+          <div className="text-sm text-gray-500">{userData.email}</div>
         </div>
-
-        {/* Mobile Hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen((v) => !v)}
-          className="md:hidden p-2 text-gray-600 dark:text-zinc-200"
-        >
-          <FaBars />
-        </button>
       </div>
 
-      {/* Mobile Search Bar */}
-      {mobileSearchOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white dark:bg-zinc-800 px-4 py-2 border-t border-gray-200 dark:border-zinc-700 md:hidden">
-          <div className="flex items-center gap-2">
-            <FaSearch className="text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="flex-1 py-2 px-2 bg-gray-100 dark:bg-zinc-900 rounded-md text-gray-700 dark:text-zinc-100"
-              value={searchQuery}
-              onChange={(e) => handleSearchInput(e.target.value)}
-            />
-            <button onClick={() => setMobileSearchOpen(false)}>
-              <MdClose className="text-gray-500" />
-            </button>
-          </div>
+      {/* Storage info */}
+      <div className="px-4 py-2 border-b border-gray-200 dark:border-zinc-700">
+        <div className="flex justify-between text-sm text-gray-600 dark:text-zinc-300 mb-1">
+          <span>Storage</span>
+          <span>{formatFileSize(userData.storageUsed)} / {formatFileSize(userData.storageTotal)}</span>
         </div>
-      )}
+        <div className="w-full bg-gray-200 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-blue-600 h-2"
+            style={{ width: `${getStoragePercentage()}%` }}
+          />
+        </div>
+      </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-md md:hidden z-50">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-          >
-            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </button>
-          <button
-            onClick={() => setShowAdvancedSearch(true)}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-700"
-          >
-            Advanced Search
-          </button>
-        </div>
-      )}
+      {/* Menu buttons */}
+      <div className="py-2">
+        <button
+          className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800"
+        >
+          Account Settings
+        </button>
+        <button
+          className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800"
+        >
+          Storage Settings
+        </button>
+        <button
+          className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800"
+        >
+          Privacy & Security
+        </button>
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 rounded-b-lg"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
+        
+      </div>
 
       {/* Advanced Search Modal */}
       <Suspense fallback={null}>
         <AdvancedSearchModal
           open={showAdvancedSearch}
           onClose={() => setShowAdvancedSearch(false)}
-          value={{}}
-          onChange={() => {}}
-          onSubmit={() => {}}
-          onReset={() => {}}
-          initialValue={{}}
+          value={advanced}
+          onChange={setAdvanced}
+          onSubmit={performAdvancedSearch}
+          onReset={() =>
+            setAdvanced(ADVANCED_DEFAULT)
+          }
+          initialValue={ADVANCED_DEFAULT}
         />
       </Suspense>
     </div>
