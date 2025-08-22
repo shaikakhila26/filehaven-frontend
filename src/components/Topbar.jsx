@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from "react";
 import { FaSearch, FaCog, FaBell , FaBars } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
+import { MdClose  } from "react-icons/md";
 import { retryFetch } from "../utils/retryFetch";
 import useLRUCache from "../hooks/useLRUCache";
 import ToastProvider, { useToast } from "../context/ToastContext";
@@ -106,6 +106,11 @@ function TopbarInner() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const [token, setToken] = useState(null);
 
