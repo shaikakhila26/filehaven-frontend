@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FolderPlus, Upload, FolderUp, Home, HardDrive, Share2, Clock, Star, Trash2, Database } from "lucide-react";
+import { FolderPlus, Upload, FolderUp, Home, HardDrive, Share2, Clock, Star, Trash2, Database , X } from "lucide-react";
 import { Menu, Transition } from "@headlessui/react";
 
 
