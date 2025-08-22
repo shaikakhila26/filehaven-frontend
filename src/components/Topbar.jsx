@@ -544,3 +544,13 @@ function TopbarInner() {
 );
 
 }
+
+export default function Topbar() {
+  return (
+    <ThemeProvider>
+      <ToastProvider>
+        <TopbarInner />
+      </ToastProvider>
+    </ThemeProvider>
+  );
+}
