@@ -60,21 +60,21 @@ export default function NotificationsPanel({ apiBase, token, onConnectedChange }
     }
   };
  return (
-    <div className="max-h-64 sm:max-h-80 md:max-h-[28rem] overflow-y-auto w-full sm:w-[22rem] md:w-[28rem] mx-auto rounded-lg border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm" aria-live="polite">
+    <div className="max-h-64 overflow-y-auto" aria-live="polite">
       {items.length > 0 ? (
         items.map((n) => (
           <div
             key={n.id}
-            className={`p-3 sm:p-4 border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800  transition${
+            className={`p-4 border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800 ${
               !n.read ? "bg-blue-50 dark:bg-zinc-800/60" : ""
             }`}
           >
-            <div className="flex  flex-col sm:flex sm:items-start sm:justify-between gap-2 sm: gap-3">
-              <p className="text-sm sm:text-base text-gray-900 dark:text-zinc-100 break-words">
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm text-gray-900 dark:text-zinc-100">
                 {n.message}
               </p>
               <button
-                className="text-xs sm:text-sm px-2 py-1 border rounded text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+                className="text-xs px-2 py-1 border rounded text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
                 onClick={() => markRead(n.id, !n.read)}
                 aria-label={n.read ? "Mark as unread" : "Mark as read"}
               >
@@ -85,7 +85,7 @@ export default function NotificationsPanel({ apiBase, token, onConnectedChange }
           </div>
         ))
       ) : (
-        <div className="p-4 text-center text-gray-500 dark:text-zinc-400 text-sm sm:text-base">
+        <div className="p-4 text-center text-gray-500 dark:text-zinc-400">
           No notifications
         </div>
       )}

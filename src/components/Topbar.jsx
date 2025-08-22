@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from "react";
-import { FaSearch, FaCog, FaBell , FaBars } from "react-icons/fa";
-import { MdClose  } from "react-icons/md";
+import { FaSearch, FaCog, FaBell } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 import { retryFetch } from "../utils/retryFetch";
 import useLRUCache from "../hooks/useLRUCache";
 import ToastProvider, { useToast } from "../context/ToastContext";
@@ -106,11 +106,6 @@ function TopbarInner() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-
-  
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const [token, setToken] = useState(null);
 
@@ -411,7 +406,8 @@ function TopbarInner() {
     }
   };
 
-return (
+
+  return (
     <div className="flex items-center justify-between px-6 py-3 bg-white dark:bg-zinc-700 border-b border-gray-200 dark:border-zinc-900">
       
 

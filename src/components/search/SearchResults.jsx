@@ -63,92 +63,82 @@ const SearchResults = React.memo(function SearchResults({
 
   return (
     <div
-  className="
-    absolute top-full left-0 right-0 mt-2 
-    bg-white dark:bg-zinc-900 
-    rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 
-    max-h-[calc(100vh-8rem)] md:max-h-96 
-    overflow-y-auto z-50
-  "
-  role="listbox"
-  tabIndex={0}
-  onKeyDown={onKeyDown}
-  ref={containerRef}
-  aria-label="Search results"
->
-  {isSearching && <div className="p-4 text-center text-gray-500">Searching...</div>}
+      className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-zinc-900 rounded-lg shadow-lg border border-gray-200 dark:border-zinc-700 max-h-96 overflow-y-auto z-50"
+      role="listbox"
+      tabIndex={0}
+      onKeyDown={onKeyDown}
+      ref={containerRef}
+      aria-label="Search results"
+    >
+      {isSearching && <div className="p-4 text-center text-gray-500">Searching...</div>}
 
-  {(!isSearching && items.length === 0) && (
-    <div className="p-4 text-center text-gray-500">No results found</div>
-  )}
+      {(!isSearching && items.length === 0) && (
+        <div className="p-4 text-center text-gray-500">No results found</div>
+      )}
 
-  {(results.folders || []).length > 0 && (
-    <div className="p-2">
-      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-3 py-2">Folders</div>
-      {results.folders.map((folder, idx) => {
-        const i = idx;
-        const isActive = activeIndex === i;
-        return (
-          <div
-            key={folder.id}
-            role="option"
-            aria-selected={isActive}
-            className={`
-              flex items-center gap-3 sm:gap-2 px-3 py-3 md:py-2 rounded cursor-pointer
-              ${isActive ? "bg-blue-50 dark:bg-zinc-800" : "hover:bg-gray-50 dark:hover:bg-zinc-800"}
-            `}
-            onMouseEnter={() => setActiveIndex(i)}
-            onClick={() => onItemOpen?.({ ...folder, _kind: "folder" })}
-          >
-            <MdFolder className="text-blue-500 text-lg shrink-0" />
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-900 dark:text-zinc-100 truncate break-words">
-                <Highlight text={folder.name} query={query} />
+      {(results.folders || []).length > 0 && (
+        <div className="p-2">
+          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-3 py-2">Folders</div>
+          {results.folders.map((folder, idx) => {
+            const i = idx;
+            const isActive = activeIndex === i;
+            return (
+              <div
+                key={folder.id}
+                role="option"
+                aria-selected={isActive}
+                className={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer 
+                  ${isActive ? "bg-blue-50 dark:bg-zinc-800" : "hover:bg-gray-50 dark:hover:bg-zinc-800"}`}
+                onMouseEnter={() => setActiveIndex(i)}
+                onClick={() => onItemOpen?.({ ...folder, _kind: "folder" })}
+              >
+                <MdFolder className="text-blue-500 text-lg" />
+                <div>
+                  <div className="font-medium text-gray-900 dark:text-zinc-100">
+                    <Highlight text={folder.name} query={query} />
+                  </div>
+                  <div className="text-xs text-gray-500">Folder</div>
+                </div>
               </div>
-              <div className="text-xs text-gray-500">Folder</div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  )}
+            );
+          })}
+        </div>
+      )}
 
-  {(results.files || []).length > 0 && (
-    <div className="p-2">
-      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-3 py-2">Files</div>
-      {results.files.map((file, idx) => {
-        const i = (results.folders?.length || 0) + idx;
-        const isActive = activeIndex === i;
-        return (
-          <div
-            key={file.id}
-            role="option"
-            aria-selected={isActive}
-            className={`
-              flex items-center gap-3 sm:gap-2 px-3 py-3 md:py-2 rounded cursor-pointer
-              ${isActive ? "bg-blue-50 dark:bg-zinc-800" : "hover:bg-gray-50 dark:hover:bg-zinc-800"}
-            `}
-            onMouseEnter={() => setActiveIndex(i)}
-            onClick={() => onItemOpen?.({ ...file, _kind: "file" })}
-          >
-            <MdInsertDriveFile className="text-gray-500 text-lg shrink-0" />
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-900 dark:text-zinc-100 truncate break-words">
-                <Highlight text={file.name} query={query} />
+      {(results.files || []).length > 0 && (
+        <div className="p-2">
+          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-3 py-2">Files</div>
+          {results.files.map((file, idx) => {
+            const i = (results.folders?.length || 0) + idx;
+            const isActive = activeIndex === i;
+            return (
+              <div
+                key={file.id}
+                role="option"
+                aria-selected={isActive}
+                className={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer 
+                  ${isActive ? "bg-blue-50 dark:bg-zinc-800" : "hover:bg-gray-50 dark:hover:bg-zinc-800"}`}
+                onMouseEnter={() => setActiveIndex(i)}
+                onClick={() => onItemOpen?.({ ...file, _kind: "file" })}
+              >
+                <MdInsertDriveFile className="text-gray-500 text-lg" />
+                <div className="flex-1">
+                  <div className="font-medium text-gray-900 dark:text-zinc-100">
+                    <Highlight text={file.name} query={query} />
+                  </div>
+                  <div className="text-xs text-gray-500">{formatFileSize(file.size_bytes)}</div>
+                </div>
               </div>
-              <div className="text-xs text-gray-500">{formatFileSize(file.size_bytes)}</div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  )}
+            );
+          })}
+        </div>
+      )}
 
-  <div ref={sentinelRef} />
-  {hasMore && !isSearching && (
-    <div className="p-3 text-center text-xs text-gray-500">Loading more…</div>
-  )}
-</div>
+      <div ref={sentinelRef} />
+      {hasMore && !isSearching && (
+        <div className="p-3 text-center text-xs text-gray-500">Loading more…</div>
+      )}
+    </div>
   );
 });
 
