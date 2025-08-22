@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from "react";
-import { FaSearch, FaCog, FaBell } from "react-icons/fa";
+import { FaSearch, FaCog, FaBell , FaBars } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { retryFetch } from "../utils/retryFetch";
 import useLRUCache from "../hooks/useLRUCache";
